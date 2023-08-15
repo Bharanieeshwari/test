@@ -1,29 +1,36 @@
-pipeline{
-    agent { label 'prod-1'}
-    environment {
-        PATH = "$PATH:/opt/apache-maven-3.8.2/bin"
-    }
-    stages{
-       stage('GetCode'){
-            steps{
-                git 'https://github.com/Bharanieeshwari/my-app'
+pipeline {
+    agent {label 'Prod-2'}
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout your source code from version control
+                 git checkout <repository_url>
             }
-         }        
-       stage('Build'){
-            steps{
-                sh 'mvn clean package'
+        }
+        
+        stage('Build') {
+            steps {
+                // Compile the Java source code
+                sh 'javac HelloWorld.java'
             }
-         }
-        stage('SonarQube analysis') {
-//    def scannerHome = tool 'SonarScanner 4.0';
-        steps{
-        withSonarQubeEnv('sonarqube-8.9') { 
-        // If you have configured more than one global server connection, you can specify its name
-//      sh "${scannerHome}/bin/sonar-scanner"
-        sh "mvn sonar:sonar"
-    }
         }
+        
+        stage('Run') {
+            steps {
+                // Run the compiled Java program
+                sh 'java HelloWorld'
+            }
         }
-       
+        
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    def scannerHome = tool name: 'SonarQube Scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+                    withEnv(["PATH+SONARQUBE_SCANNER=${scannerHome}/bin"]) {
+                        sh 'sonar-scanner'
+                    }
+                }
+            }
+        }
     }
 }
