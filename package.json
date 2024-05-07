@@ -1,0 +1,23 @@
+{
+  "name": "hello-npm-package",
+  "version": "1.0.0",
+  "description": "Demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "ls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bharanieeshwari/test.git"
+  },
+  "keywords": [
+    "package.json",
+    "npm"
+  ],
+  "author": "bharanieeshwari",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bharanieeshwari/test/issues"
+  },
+  "homepage": "https://github.com/Bharanieeshwari/test#readme"
+}
